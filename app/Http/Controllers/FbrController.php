@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\FbrSubmission;
 class FbrController extends Controller
 {
     public function submit(Request $request){
@@ -23,5 +23,13 @@ class FbrController extends Controller
             'items.*.tax' => 'required|numeric|min:0',
             'items.*.total' => 'required|numeric|min:0'
         ]);
-    }
+        $isDuplicate = FbrSubmission::where('invoice_number',$request->invoice_number)->exists();
+           if ($isDuplicate) {
+            return response()->json([
+            'success' => false,
+            'message' => 'This invoice number has already been submitted.'
+          ], 409); 
 }
+        }
+    }
+

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FbrSubmission;
+use Illuminate\Support\Str;
 
 class FbrController extends Controller
 {
@@ -57,6 +58,18 @@ class FbrController extends Controller
                         'message' => "NTN is not valid"
                      ],409);
            }         
+           $irn = 'IRN-' . strtoupper(Str::random(10));
+           FbrSubmission::create([
+            'invoice_number' => $request->invoice_number,
+            'company_id' => $request->business_id,
+            'irn' => $irn,
+            'status' => 'approved'
+           ]);
+           return response()->json([
+            'success' => true,
+            'irn' => $irn,
+            'message' => 'Your Invoice has been approvd by fbr'
+           ]);
         
     }
 }

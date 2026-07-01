@@ -52,7 +52,7 @@ class FbrController extends Controller
                      ],409);
                      }
 
-           if($request->ntn && (strlen($request->cnic) != 7 || !is_numeric($request->ntn))) {
+           if($request->ntn && (strlen($request->ntn) != 7 || !is_numeric($request->ntn))) {
                      return response()->json([
                         'success' => false,
                         'message' => "NTN is not valid"
